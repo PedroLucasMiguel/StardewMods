@@ -35,6 +35,11 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Framework
         [JsonProperty(ObjectCreationHandling = ObjectCreationHandling.Auto)]
         public HashSet<string> DisabledInLocations { get; } = new(StringComparer.OrdinalIgnoreCase);
 
+        /// <sumary>Wheter to anable the auto sort feature.</sumary>
+        public bool EnableAutoSort = false;
+
+        /// <sumary>The ranage at which auto sort will work.</sumary>
+        public ChestRange AutoSortRange { get; set; } = ChestRange.Unlimited;
 
         /*********
         ** Public methods

@@ -72,6 +72,16 @@
     "config.range.currentLocation": "Baús dentro da localização atual",
     "config.range.none": "Nenhum (não é possível acessar os baús remotamente)",
 
+    "config.auto-sorter.name": "Habilitar organizador automático",
+    "config.auto-sorter.desc": "Habilitar a funcionalidade de organziar item de qualquer lugar.",
+
+    "config.auto-sorter-range.name": "Alcance do organizador automático",
+    "config.auto-sorter-range.desc": "O alcance em que os baús são acessíveis ao organizador automático.",
+    "config.auto-sorter-range.unlimited": "Todos os baús",
+    "config.auto-sorter-range.currentWorldArea": "Baús dentro da área atual do mundo",
+    "config.auto-sorter-range.currentLocation": "Baús dentro da localização atual",
+    "config.auto-sorter-range.none": "Nenhum (não é possível acessar os baús remotamente)",
+
     /****
     ** general controls
     ****/
@@ -79,6 +89,9 @@
 
     "config.toggle-ui-key.name": "Alternar interface",
     "config.toggle-ui-key.desc": "As teclas que mostram ou ocultam a interface do baú.",
+
+    "config.auto-sorter-key.name": "Organizador automático",
+    "config.auto-sorter-key.desc": "As teclas que organizaram automaticamente o inventário do jogador em baús.",
 
     /****
     ** controls when chest UI is open
@@ -118,5 +131,11 @@
     "config.disable-mines.desc": "Se deve desabilitar o acesso aos baús enquanto estiver nas Minas ou na Caverna da Caveira.",
 
     "config.disable-custom-names.name": "Nomes de locais personalizados",
-    "config.disable-custom-names.desc": "Os nomes internos (como mostrado pelo mod Debug Mode) para locais onde desabilitar o acesso aos baús. Você pode listar vários nomes separando-os por vírgulas."
+    "config.disable-custom-names.desc": "Os nomes internos (como mostrado pelo mod Debug Mode) para locais onde desabilitar o acesso aos baús. Você pode listar vários nomes separando-os por vírgulas.",
+
+    /**********
+    ** Ingame alerts
+    **********/
+    "alert.auto-sorter.sorted": "Itens organizados!",
+    "alert.auto-sorter.not-sorted": "Nenhum item foi organizado."
 }

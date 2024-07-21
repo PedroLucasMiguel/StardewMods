@@ -39,6 +39,8 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Framework
         /// <summary>The keys which, when held, enable scrolling the category dropdown with the mouse scroll wheel.</summary>
         public KeybindList HoldToMouseWheelScrollCategories { get; set; } = new(SButton.LeftAlt);
 
+        /// <summary>The keys which, when held, will automatically sort the player itens.</summary>
+        public KeybindList AutoSortItems { get; set; } = new(SButton.R);
 
         /*********
         ** Public methods
@@ -59,6 +61,7 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Framework
             this.SortItems ??= new KeybindList();
             this.HoldToMouseWheelScrollChests ??= new KeybindList();
             this.HoldToMouseWheelScrollCategories ??= new KeybindList();
+            this.AutoSortItems ??= new KeybindList();
         }
     }
 }

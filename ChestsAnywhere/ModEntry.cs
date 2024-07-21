@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Force.DeepCloner;
 using Microsoft.Xna.Framework;
 using Pathoschild.Stardew.ChestsAnywhere.Framework;
 using Pathoschild.Stardew.ChestsAnywhere.Framework.Containers;
@@ -10,8 +11,10 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using StardewValley;
+using StardewValley.Inventories;
 using StardewValley.Locations;
 using StardewValley.Menus;
+using StardewValley.Objects;
 
 namespace Pathoschild.Stardew.ChestsAnywhere
 {
@@ -181,6 +184,11 @@ namespace Pathoschild.Stardew.ChestsAnywhere
                             this.OpenMenu();
                     }
                 }
+
+                // Auto sorter
+                if (keys.AutoSortItems.JustPressed())
+                    this.AutoSorter();
+
             }
             catch (Exception ex)
             {
@@ -335,6 +343,84 @@ namespace Pathoschild.Stardew.ChestsAnywhere
                 return I18n.Errors_NoChestsInRange();
 
             return I18n.Errors_NoChests();
+        }
+
+        /// <summary>Get the auto sort range for the current context.</summary>
+        private RangeHandler GetAutoSortCurrentRange()
+        {
+            ChestRange range = this.IsDisabledLocation(Game1.currentLocation)
+                ? ChestRange.None
+                : this.Config.AutoSortRange;
+            return new RangeHandler(this.Data.WorldAreas, range, Game1.currentLocation);
+        }
+
+        /// <summary>Auto sort the player items into chests.</summary>
+        private void AutoSorter()
+        {
+            if (this.Config.EnableAutoSort)
+            {
+                bool somethingWasSorted = false;
+
+                // For each item in the player inventory
+                foreach(var item in Game1.player.Items)
+                {
+                    if (item != null)
+                    {
+                        // For each chest in the range
+                        foreach(var managedChest in this.ChestFactory.GetChests(this.GetAutoSortCurrentRange(), true))
+                        {
+                            // TODO - Maybe let the player configure where to auto sort
+                            if (managedChest.MapEntity is Chest)
+                            {
+                                Chest chest = (Chest)managedChest.MapEntity;
+
+                                // Check each chest inventory slot 
+                                foreach(var chestItem in managedChest.Container.Inventory)
+                                {
+                                    // Check for the item match
+                                    if (chestItem != null && chestItem.Name == item.Name && chestItem.Quality == item.Quality)
+                                    {
+                                        // if stack is full, try to search for other stack inside the chest
+                                        if (chestItem.Stack == chestItem.maximumStackSize())
+                                            continue;
+
+                                        // If stack is half full, fill it and search other stack
+                                        else if((chestItem.Stack + item.Stack) >= chestItem.maximumStackSize())
+                                        {
+                                            int toStore = chestItem.maximumStackSize() - chestItem.Stack;
+                                            Item toAdd = item.DeepClone<Item>();
+                                            toAdd.Stack = toStore;
+                                            chest.addItem(toAdd);
+
+                                            // Avoid a simple bug where we left a "ghost" stack to the player
+                                            if ((item.Stack -= toStore) == 0)
+                                                Game1.player.removeItemFromInventory(item);
+
+                                            somethingWasSorted = true;
+                                            continue;
+                                        }
+
+                                        // But, if we can store the entire stack, just do it
+                                        else
+                                        {
+                                            chest.addItem(item);
+                                            Game1.player.removeItemFromInventory(item);
+                                            somethingWasSorted = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                            } 
+                        }
+                    }
+                }
+
+                // Showing a simple message saying if the item was sorted
+                if (somethingWasSorted)
+                    Game1.addHUDMessage(new HUDMessage(I18n.Alert_AutoSorter_Sorted(), HUDMessage.newQuest_type) { timeLeft = 1000 });
+                else
+                    Game1.addHUDMessage(new HUDMessage(I18n.Alert_AutoSorter_NotSorted(), HUDMessage.error_type) { timeLeft = 1000 });
+            }
         }
     }
 }

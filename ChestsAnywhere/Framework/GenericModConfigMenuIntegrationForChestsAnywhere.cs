@@ -77,6 +77,20 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Framework
                     allowedValues: Enum.GetNames<ChestRange>(),
                     formatAllowedValue: name => I18n.GetByKey($"config.range.{name}")
                 )
+                .AddCheckbox(
+                    name: I18n.Config_AutoSorter_Name,
+                    tooltip: I18n.Config_AutoSorter_Desc,
+                    get: config => config.EnableAutoSort,
+                    set: (config, value) => config.EnableAutoSort = value
+                )
+                .AddDropdown(
+                    name: I18n.Config_AutoSorterRange_Name,
+                    tooltip: I18n.Config_AutoSorterRange_Desc,
+                    get: config => config.AutoSortRange.ToString(),
+                    set: (config, value) => config.AutoSortRange = Enum.Parse<ChestRange>(value, ignoreCase: true),
+                    allowedValues: Enum.GetNames<ChestRange>(),
+                    formatAllowedValue: name => I18n.GetByKey($"config.auto-sorter-range.{name}")
+                )
 
                 .AddSectionTitle(I18n.Config_Title_GeneralControls)
                 .AddKeyBinding(
@@ -134,6 +148,12 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Framework
                     tooltip: I18n.Config_HoldToScrollChests_Desc,
                     get: config => config.Controls.HoldToMouseWheelScrollChests,
                     set: (config, value) => config.Controls.HoldToMouseWheelScrollChests = value
+                )
+                .AddKeyBinding(
+                    name: I18n.Config_AutoSorterKey_Name,
+                    tooltip: I18n.Config_AutoSorterKey_Desc,
+                    get: config => config.Controls.AutoSortItems,
+                    set: (config, value) => config.Controls.AutoSortItems = value
                 )
 
                 .AddSectionTitle(I18n.Config_Title_DisableInLocations)

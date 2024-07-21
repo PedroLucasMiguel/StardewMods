@@ -72,6 +72,16 @@
     "config.range.currentLocation": "Chests within the current location",
     "config.range.none": "None (can't access chests remotely)",
 
+    "config.auto-sorter.name": "Enable auto sort",
+    "config.auto-sorter.desc": "Whether to enable the auto item sorter from anywhere feature.",
+
+    "config.auto-sorter-range.name": "Auto sort range",
+    "config.auto-sorter-range.desc": "The range at which chests are accessible to the auto sorter.",
+    "config.auto-sorter-range.unlimited": "All chests",
+    "config.auto-sorter-range.currentWorldArea": "Chests within the current world area",
+    "config.auto-sorter-range.currentLocation": "Chests within the current location",
+    "config.auto-sorter-range.none": "None (can't access chests remotely)",
+
     /****
     ** general controls
     ****/
@@ -79,6 +89,9 @@
 
     "config.toggle-ui-key.name": "Toggle UI",
     "config.toggle-ui-key.desc": "The keys which show or hide the chest UI.",
+
+    "config.auto-sorter-key.name": "Auto sort items",
+    "config.auto-sorter-key.desc": "The keys which will automatically sort player items into chests.",
 
     /****
     ** controls when chest UI is open
@@ -118,5 +131,11 @@
     "config.disable-mines.desc": "Whether to disable accessing chests while in the mines or Skull Cavern.",
 
     "config.disable-custom-names.name": "Custom location names",
-    "config.disable-custom-names.desc": "The internal names (as shown by the Debug Mode mod) for locations from which to disable accessing chests. You can list multiple with commas."
+    "config.disable-custom-names.desc": "The internal names (as shown by the Debug Mode mod) for locations from which to disable accessing chests. You can list multiple with commas.",
+
+    /**********
+    ** Ingame alerts
+    **********/
+    "alert.auto-sorter.sorted": "Items sorted!",
+    "alert.auto-sorter.not-sorted": "No items sorted."
 }
