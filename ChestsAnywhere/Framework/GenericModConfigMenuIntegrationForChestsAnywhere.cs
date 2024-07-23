@@ -99,6 +99,12 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Framework
                     get: config => config.Controls.Toggle,
                     set: (config, value) => config.Controls.Toggle = value
                 )
+                .AddKeyBinding(
+                    name: I18n.Config_AutoSorterKey_Name,
+                    tooltip: I18n.Config_AutoSorterKey_Desc,
+                    get: config => config.Controls.AutoSortItems,
+                    set: (config, value) => config.Controls.AutoSortItems = value
+                )
 
                 .AddSectionTitle(I18n.Config_Title_MenuControls)
                 .AddKeyBinding(
@@ -148,12 +154,6 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Framework
                     tooltip: I18n.Config_HoldToScrollChests_Desc,
                     get: config => config.Controls.HoldToMouseWheelScrollChests,
                     set: (config, value) => config.Controls.HoldToMouseWheelScrollChests = value
-                )
-                .AddKeyBinding(
-                    name: I18n.Config_AutoSorterKey_Name,
-                    tooltip: I18n.Config_AutoSorterKey_Desc,
-                    get: config => config.Controls.AutoSortItems,
-                    set: (config, value) => config.Controls.AutoSortItems = value
                 )
 
                 .AddSectionTitle(I18n.Config_Title_DisableInLocations)
