@@ -187,8 +187,11 @@ namespace Pathoschild.Stardew.ChestsAnywhere
 
                 // Auto sorter
                 if (keys.AutoSortItems.JustPressed())
-                    this.AutoSorter();
-
+                {   
+                    // Only do it if the player doesnt have a open menu
+                    if (Game1.activeClickableMenu == null)
+                        this.AutoSorter();
+                }
             }
             catch (Exception ex)
             {
