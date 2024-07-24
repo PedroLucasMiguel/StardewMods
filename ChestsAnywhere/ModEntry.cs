@@ -365,6 +365,8 @@ namespace Pathoschild.Stardew.ChestsAnywhere
             {
                 bool somethingWasSorted = false;
                 bool stopLookingForThisItem;
+                
+                // All chests in the farm
                 IEnumerable<ManagedChest> managedChests = this.ChestFactory.GetChests(this.GetAutoSortCurrentRange(), true);
 
                 // For each item in the player inventory
@@ -414,6 +416,7 @@ namespace Pathoschild.Stardew.ChestsAnywhere
                                             chest.addItem(item);
                                             Game1.player.removeItemFromInventory(item);
                                             somethingWasSorted = true;
+                                            // If we sorted the entire stack, we can stop look into the chests
                                             stopLookingForThisItem = true;
                                             break;
                                         }
@@ -421,6 +424,7 @@ namespace Pathoschild.Stardew.ChestsAnywhere
                                 }
                             }
 
+                            // Stop the search into the chests
                             if (stopLookingForThisItem)
                                 break;
                         }
