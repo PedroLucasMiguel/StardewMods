@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Force.DeepCloner;
 using Microsoft.Xna.Framework;
@@ -363,14 +364,18 @@ namespace Pathoschild.Stardew.ChestsAnywhere
             if (this.Config.EnableAutoSort)
             {
                 bool somethingWasSorted = false;
+                bool stopLookingForThisItem;
+                IEnumerable<ManagedChest> managedChests = this.ChestFactory.GetChests(this.GetAutoSortCurrentRange(), true);
 
                 // For each item in the player inventory
                 foreach(var item in Game1.player.Items)
                 {
+                    stopLookingForThisItem = false;
+
                     if (item != null)
                     {
                         // For each chest in the range
-                        foreach(var managedChest in this.ChestFactory.GetChests(this.GetAutoSortCurrentRange(), true))
+                        foreach(var managedChest in managedChests)
                         {
                             // TODO - Maybe let the player configure where to auto sort
                             if (managedChest.MapEntity is Chest)
@@ -409,11 +414,15 @@ namespace Pathoschild.Stardew.ChestsAnywhere
                                             chest.addItem(item);
                                             Game1.player.removeItemFromInventory(item);
                                             somethingWasSorted = true;
+                                            stopLookingForThisItem = true;
                                             break;
                                         }
                                     }
                                 }
-                            } 
+                            }
+
+                            if (stopLookingForThisItem)
+                                break;
                         }
                     }
                 }
