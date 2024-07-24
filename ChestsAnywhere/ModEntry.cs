@@ -366,8 +366,8 @@ namespace Pathoschild.Stardew.ChestsAnywhere
                 bool somethingWasSorted = false;
                 bool stopLookingForThisItem;
                 
-                // All chests in the farm
-                IEnumerable<ManagedChest> managedChests = this.ChestFactory.GetChests(this.GetAutoSortCurrentRange(), true);
+                RangeHandler range = this.GetAutoSortCurrentRange();
+                ManagedChest[] managedChests = this.ChestFactory.GetChests(range, true).ToArray();
 
                 // For each item in the player inventory
                 foreach(var item in Game1.player.Items)
@@ -383,12 +383,17 @@ namespace Pathoschild.Stardew.ChestsAnywhere
                             if (managedChest.MapEntity is Chest)
                             {
                                 Chest chest = (Chest)managedChest.MapEntity;
+                                Item?[] chestItems = managedChest.Container.Inventory.ToArray();
 
                                 // Check each chest inventory slot 
-                                foreach(var chestItem in managedChest.Container.Inventory)
+                                foreach(var chestItem in chestItems)
                                 {
+                                    // Skip this chest slot if it is empty
+                                    if (chestItem == null)
+                                        continue;
+
                                     // Check for the item match
-                                    if (chestItem != null && chestItem.Name == item.Name && chestItem.Quality == item.Quality)
+                                    if (chestItem.Name == item.Name && chestItem.Quality == item.Quality)
                                     {
                                         // if stack is full, try to search for other stack inside the chest
                                         if (chestItem.Stack == chestItem.maximumStackSize())
@@ -398,7 +403,7 @@ namespace Pathoschild.Stardew.ChestsAnywhere
                                         else if ((chestItem.Stack + item.Stack) >= chestItem.maximumStackSize())
                                         {
                                             int toStore = chestItem.maximumStackSize() - chestItem.Stack;
-                                            Item toAdd = item.DeepClone<Item>();
+                                            Item toAdd = item.DeepClone();
                                             toAdd.Stack = toStore;
                                             chest.addItem(toAdd);
 
@@ -418,6 +423,7 @@ namespace Pathoschild.Stardew.ChestsAnywhere
                                             chest.addItem(item);
                                             Game1.player.removeItemFromInventory(item);
                                             somethingWasSorted = true;
+
                                             // If we sorted the entire stack, we can stop look into the chests
                                             stopLookingForThisItem = true;
                                             break;
