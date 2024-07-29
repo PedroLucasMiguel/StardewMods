@@ -380,17 +380,16 @@ namespace Pathoschild.Stardew.ChestsAnywhere
                         foreach(var managedChest in managedChests)
                         {
                             // TODO - Maybe let the player configure where to auto sort
-                            if (managedChest.MapEntity is Chest)
+                            if (managedChest.MapEntity is Chest chest)
                             {
-                                Chest chest = (Chest)managedChest.MapEntity;
-                                Item?[] chestItems = managedChest.Container.Inventory.ToArray();
+                                Item?[] chestItems = [.. managedChest.Container.Inventory];
 
                                 // Check each chest inventory slot 
-                                foreach(var chestItem in chestItems)
+                                foreach (var chestItem in chestItems)
                                 {
-                                    // Skip this chest slot if it is empty
+                                    // Skip this chest if slot is empty
                                     if (chestItem == null)
-                                        continue;
+                                        break;
 
                                     // Check for the item match
                                     if (chestItem.Name == item.Name && chestItem.Quality == item.Quality)
