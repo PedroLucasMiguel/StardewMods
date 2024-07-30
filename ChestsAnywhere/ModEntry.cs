@@ -401,16 +401,19 @@ namespace Pathoschild.Stardew.ChestsAnywhere
                                         // If stack is half full, fill it and search other stack
                                         else if ((chestItem.Stack + item.Stack) >= chestItem.maximumStackSize())
                                         {
+
                                             int toStore = chestItem.maximumStackSize() - chestItem.Stack;
-                                            Item toAdd = item.DeepClone();
-                                            toAdd.Stack = toStore;
-                                            chest.addItem(toAdd);
+                                            chestItem.Stack += toStore;
 
                                             // Avoid a bug where we left a "ghost" stack to the player
-                                            if ((item.Stack - toStore) == 0)
-                                                Game1.player.removeItemFromInventory(item);
-                                            else
+                                            if ((item.Stack - toStore) != 0)
                                                 item.Stack -= toStore;
+                                            else
+                                            {
+                                                Game1.player.removeItemFromInventory(item);
+                                                somethingWasSorted = true;
+                                                break;
+                                            }
 
                                             somethingWasSorted = true;
                                             continue;
